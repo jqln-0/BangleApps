@@ -46,8 +46,9 @@ exports.getMessageImage = function(msg) {
   if (s=="youtube") return atob("GBgBAAAAAAAAAAAAAAAAAf8AH//4P//4P//8P//8P5/8P4/8f4P8f4P8P4/8P5/8P//8P//8P//4H//4Af8AAAAAAAAAAAAAAAAA");
   if (msg.id=="music") return atob("FhaBAH//+/////////////h/+AH/4Af/gB/+H3/7/f/v9/+/3/7+f/vB/w8H+Dwf4PD/x/////////////3//+A=");
   return getNotificationImage();
-}
-function getMessageImageCol(msg,def) {
+};
+
+exports.getMessageImageCol = function(msg,def) {
   return {
     // generic colors, using B2-safe colors
     "alarm": "#fff",
@@ -84,7 +85,7 @@ function getMessageImageCol(msg,def) {
     "wordfeud": "#e7d3c7",
     "youtube": "#f00",
   }[(msg.src||"").toLowerCase()]||(def !== undefined?def:g.theme.fg);
-}
+};
 
 function openMusic() {
   // only read settings file for first music message

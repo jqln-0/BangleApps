@@ -10,11 +10,9 @@ draw:function() {
   var fg = g.getColor();
   var iconX = this.x;
   messages.forEach((msg) => {
-    g.setColor(require("messages").getMessageImageCol(msg, fg)).drawImage(requires("messages").getMessageImage(msg), iconX, this.y-1);
+    g.setColor(require("messages").getMessageImageCol(msg, fg)).drawImage(require("messages").getMessageImage(msg), iconX, this.y-1);
     iconX += 24;
   });
-
-  }
   if (process.env.HWVERSION>1) Bangle.on('touch', this.touch);
 },show:function(quiet) {
   WIDGETS["messages"].t=Date.now(); // first time
