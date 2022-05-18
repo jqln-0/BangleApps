@@ -1,33 +1,28 @@
 WIDGETS["messages"]={area:"tl", width:0, iconwidth:24,
-draw:function(recall) {
-  // If we had a setTimeout queued from the last time we were called, remove it
-  if (WIDGETS["messages"].i) {
-    clearTimeout(WIDGETS["messages"].i);
-    delete WIDGETS["messages"].i;
-  }
+draw:function() {
   Bangle.removeListener('touch', this.touch);
   if (!this.width) return;
   var c = (Date.now()-this.t)/1000;
-  let settings = require('Storage').readJSON("messages.settings.json", true) || {};
-  if (settings.flash===undefined) settings.flash = true;
-  if (recall !== true || settings.flash) {
-    g.reset().clearRect(this.x, this.y, this.x+this.width, this.y+23);
-    g.drawImage(settings.flash && (c&1) ? atob("GBiBAAAAAAAAAAAAAAAAAAAAAB//+DAADDAADDAADDwAPD8A/DOBzDDn/DA//DAHvDAPvjAPvjAPvjAPvh///gf/vAAD+AAB8AAAAA==") : atob("GBiBAAAAAAAAAAAAAAAAAAAAAB//+D///D///A//8CP/xDj/HD48DD+B8D/D+D/3vD/vvj/vvj/vvj/vvh/v/gfnvAAD+AAB8AAAAA=="), this.x, this.y-1);
+  var messages = require("Storage").readJSON("messages.json",1)||[];
+
+  g.reset().clearRect(this.x, this.y, this.x+this.width, this.y+23);
+
+  var fg = g.getColor();
+  var iconX = this.x;
+  messages.forEach((msg) => {
+    g.setColor(require("messages").getMessageImageCol(msg, fg)).drawImage(requires("messages").getMessageImage(msg), iconX, this.y-1);
+    iconX += 24;
+  });
+
   }
-  if (settings.repeat===undefined) settings.repeat = 4;
-  if (c<120 && (Date.now()-this.l)>settings.repeat*1000) {
-    this.l = Date.now();
-    WIDGETS["messages"].buzz(); // buzz every 4 seconds
-  }
-  WIDGETS["messages"].i=setTimeout(()=>WIDGETS["messages"].draw(true), 1000);
   if (process.env.HWVERSION>1) Bangle.on('touch', this.touch);
 },show:function(quiet) {
   WIDGETS["messages"].t=Date.now(); // first time
   WIDGETS["messages"].l=Date.now()-10000; // last buzz
   if (quiet) WIDGETS["messages"].t -= 500000; // if quiet, set last time in the past so there is no buzzing
-  WIDGETS["messages"].width=this.iconwidth;
+  var messages = require("Storage").readJSON("messages.json",1)||[];
+  WIDGETS["messages"].width=this.iconwidth * messages.length;
   Bangle.drawWidgets();
-  Bangle.setLCDPower(1);// turns screen on
 },hide:function() {
   delete WIDGETS["messages"].t;
   delete WIDGETS["messages"].l;
