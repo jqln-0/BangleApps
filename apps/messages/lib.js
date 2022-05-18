@@ -1,5 +1,5 @@
 function getNotificationImage() {
-  return atob("HBKBAD///8H///iP//8cf//j4//8f5//j/x/8//j/H//H4//4PB//EYj/44HH/Hw+P4//8fH//44///xH///g////A==");
+  return atob("GBiBAAAAAAAAAAAAAAAAAAAAAB//+D///D///A//8CP/xDj/HD48DD+B8D/D+D/3vD/vvj/vvj/vvj/vvh/v/gfnvAAD+AAB8AAAAA==");
 }
 function getFBIcon() {
   return atob("GBiBAAAAAAAAAAAYAAD/AAP/wAf/4A/48A/g8B/g+B/j+B/n+D/n/D8A/B8A+B+B+B/n+A/n8A/n8Afn4APnwADnAAAAAAAAAAAAAA==");
@@ -59,7 +59,7 @@ exports.getMessageImageCol = function(msg,def) {
     // brands, according to https://www.schemecolor.com/?s (picking one for multicolored logos)
     // all dithered on B2, but we only use the color for the icons.  (Could maybe pick the closest 3-bit color for B2?)
     "bibel": "#54342c",
-    "discord": "#738adb",
+    "discord": "#f0f",
     "facebook": "#4267b2",
     "gmail": "#ea4335",
     "google home": "#fbbc05",
@@ -101,6 +101,12 @@ function openMusic() {
   {t:"modify",id:int, title:string} // modified
 */
 exports.pushMessage = function(event) {
+  // drop message types that are persistent or unactionable, since we have
+  // limited screen space.
+  if (event.id === "music") {
+    return;
+  }
+
   var messages, inApp = "undefined"!=typeof MESSAGES;
   if (inApp)
     messages = MESSAGES; // we're in an app that has already loaded messages
@@ -132,7 +138,7 @@ exports.pushMessage = function(event) {
   for (let i = 0; i < messages.length; i++) {
     for (let j = i + 1; j < messages.length; j++) {
       if (messages[i].src === messages[j].src) {
-        messages.splice(i, 1);
+        messages.splice(j, 1);
       }
     }
   }
