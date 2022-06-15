@@ -59,7 +59,7 @@ exports.getMessageImageCol = function(msg,def) {
     // brands, according to https://www.schemecolor.com/?s (picking one for multicolored logos)
     // all dithered on B2, but we only use the color for the icons.  (Could maybe pick the closest 3-bit color for B2?)
     "bibel": "#54342c",
-    "discord": "#f0f",
+    "discord": "#00f",
     "facebook": "#4267b2",
     "gmail": "#ea4335",
     "google home": "#fbbc05",
@@ -80,7 +80,7 @@ exports.getMessageImageCol = function(msg,def) {
     "threema": "#000",
     "to do": "#3999e5",
     "twitch": "#6441A4",
-    "twitter": "#1da1f2",
+    "twitter": "#0ff",
     "whatsapp": "#4fce5d",
     "wordfeud": "#e7d3c7",
     "youtube": "#f00",
